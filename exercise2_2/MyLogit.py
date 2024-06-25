@@ -17,7 +17,7 @@ def plotData(X, y):
 def sigmoid(z):
     ### ADD YOUR CODE HERE
     
-    sigmoid_function = 
+    sigmoid_function = #hello
     return sigmoid_function
 
 # Calculate the cost function
