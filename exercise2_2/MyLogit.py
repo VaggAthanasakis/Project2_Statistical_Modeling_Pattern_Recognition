@@ -7,6 +7,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
+from pathlib import Path
+
+
+
+
 
 def plotData(X, y):
     pos = y == 1
@@ -15,23 +20,24 @@ def plotData(X, y):
     plt.scatter(X[neg, 0], X[neg, 1], marker='o', c='y', label='Not admitted')
 
 def sigmoid(z):
-    ### ADD YOUR CODE HERE
-    
-    sigmoid_function = #hello
+    # Implementing the sigmoid function described in the assignment    
+    sigmoid_function =  1 / (1 + 2 * np.exp(-z))   
     return sigmoid_function
 
 # Calculate the cost function
 def costFunction(theta, X, y):
-    ### ADD YOUR CODE HERE
-    
-    J = 
+    m = len(y) # num of samples
+    h_theta = sigmoid(X @ theta)#Logistic regression function      
+    epsilon = 1e-10  # small value to avoid log(0)
+    y_cap = h_theta + epsilon
+    J = (1/m) * (-y @ np.log(y_cap) - (1 - y) @ np.log(1 - y_cap))
     return J
 
 # Calculate the gradient of the cost function
 def gradient(theta, X, y):
-    ### ADD YOUR CODE HERE
-
-    grad = 
+    m = len(y) # num of samples
+    h_theta = sigmoid(X @ theta)#Logistic regression function    
+    grad = (1/m) * X.T
     return grad
 
 def plotDecisionBoundary(theta, X, y):
@@ -44,17 +50,19 @@ def plotDecisionBoundary(theta, X, y):
     plt.legend()
 
 # Class Prediction
-def predict(theta, X):
-    ### ADD YOUR CODE HERE
+# def predict(theta, X):
+#     ### ADD YOUR CODE HERE
 
-    class = 
-    return class
+#     class = 
+#     return class
 
 # Initialization
 np.set_printoptions(suppress=True)
 
 # Load Data
-data = np.loadtxt('exam_scores_data1.txt', delimiter=',')
+script_directory = Path(__file__).parent
+exam_scores_data1 = script_directory / 'exam_scores_data1.txt'
+data = np.loadtxt(exam_scores_data1, delimiter=',')
 X = data[:, [0, 1]]
 y = data[:, 2]
 
@@ -89,15 +97,15 @@ plotDecisionBoundary(theta, X, y)
 plt.show()
 input('\nProgram paused. Press enter to continue.\n')
 
-# ============== Part 4: Predict and Accuracies ==============
-# Check the result for a student with marks 45 and 85.
-### ADD YOUR CODE HERE
+# # ============== Part 4: Predict and Accuracies ==============
+# # Check the result for a student with marks 45 and 85.
+# ### ADD YOUR CODE HERE
 
-prob = 
-print('For a student with scores 45 and 85, we predict an admission probability of', prob)
-p = predict(theta, X)
+# prob = 
+# print('For a student with scores 45 and 85, we predict an admission probability of', prob)
+# p = predict(theta, X)
 
-### ADD YOUR CODE HERE
-train_accuracy = 
-print('Train Accuracy:', train_accuracy)
+# ### ADD YOUR CODE HERE
+# train_accuracy = 
+# print('Train Accuracy:', train_accuracy)
 

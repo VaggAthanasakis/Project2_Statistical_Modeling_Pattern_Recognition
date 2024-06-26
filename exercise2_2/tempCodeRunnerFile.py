@@ -1,0 +1,1 @@
+scipy.optimize import minimize
