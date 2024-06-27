@@ -1,4 +1,4 @@
-## Vassilis Diakoloukas 
+## Vasilis Diakoloukas 
 
 
 import numpy as np
@@ -16,7 +16,7 @@ class Dense():
     def forward(self, input):
         self.input = input
         # Add Code Here
-        fwd =
+        fwd =  np.dot(input , self.weights) + self.bias
         return fwd
 
     #Backward Propagation on a Dense Layer
@@ -25,9 +25,10 @@ class Dense():
     # dE_dB is dE/dB Gradient
     # dE_dX is dE/dX Gradient
     def backward(self, dE_dY, learning_rate):
-        # Add Code Here
-        dE_dW =
-        dE_dX =
+        dZ_dW = self.inputs.T                   # dZ_dW = Xi
+        dE_dW = np.dot(dE_dY,dZ_dW.T )          # dE_dW =  dE_dY / dZ_dW
+        dY_dX = self.weights                    # dY_dX = W since we have no activation function
+        dE_dX = np.dot(dE_dY,dY_dX.T)           # dE_dX = dE_dY * dY_dX
         dE_dB =
         self.update_weights(dE_dW, dE_dB, learning_rate)
         return dE_dX
@@ -35,8 +36,8 @@ class Dense():
     # Update Layer Weights and bias
     def update_weights(self, dE_dW, dE_dB, learning_rate):
         # Add Code Here
-        self.weights =
-        self.bias =
+        self.weights -= learning_rate * dE_dW
+        self.bias -= learning_rate * dE_dB
 
 
 # Neural Network Activation Layer Abstract Class
@@ -52,7 +53,7 @@ class Activation():
     def forward(self, input):
         self.input = input
         # Add Code Here
-        Y =
+        Y = 
         return Y
 
     # Backward estimation of dE/dX using the activation prime (derivative)
