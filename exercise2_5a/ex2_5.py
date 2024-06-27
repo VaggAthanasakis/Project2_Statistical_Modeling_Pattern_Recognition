@@ -16,7 +16,7 @@ class Dense():
     def forward(self, input):
         self.input = input
         # Add Code Here
-        fwd =  np.dot(input , self.weights) + self.bias
+        fwd =  np.dot(self.input , self.weights) + self.bias
         return fwd
 
     #Backward Propagation on a Dense Layer
@@ -26,10 +26,15 @@ class Dense():
     # dE_dX is dE/dX Gradient
     def backward(self, dE_dY, learning_rate):
         dZ_dW = self.inputs.T                   # dZ_dW = Xi
-        dE_dW = np.dot(dE_dY,dZ_dW.T )          # dE_dW =  dE_dY / dZ_dW
+        dE_dW = np.dot(dE_dY,dZ_dW.T)           # dE_dW =  dE_dY / dZ_dW
         dY_dX = self.weights                    # dY_dX = W since we have no activation function
-        dE_dX = np.dot(dE_dY,dY_dX.T)           # dE_dX = dE_dY * dY_dX
-        dE_dB =
+        dE_dX = np.dot(dE_dY,dY_dX.T)           # dE_dX = dE_dY * dY_dX = dE_dY * W
+        
+        # Since b is added to each neuron's output we need sum for each neuron across the batch
+        # dE_dB = sum(dE_dZ * dZ_db) = sum(dE_dZ * 1) = sum(dE_dZ) = sum(dE_dY) => dE_dB = sum(dE_dY)
+        # keepdims = True ensures that the resulting gradient has the same shape as B
+        dE_dB = np.sum(dE_dY, axis=1, keepdims=True)   
+
         self.update_weights(dE_dW, dE_dB, learning_rate)
         return dE_dX
 
