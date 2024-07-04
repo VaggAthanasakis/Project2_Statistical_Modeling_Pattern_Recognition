@@ -37,7 +37,7 @@ def costFunction(theta, X, y):
 def gradient(theta, X, y):
     m = len(y) # num of samples
     h_theta = sigmoid(X @ theta)#Logistic regression function    
-    grad = (1/m) * X.T
+    grad = (1/m) * X.T @ (h_theta - y) #explain this shit
     return grad
 
 def plotDecisionBoundary(theta, X, y):
@@ -50,11 +50,14 @@ def plotDecisionBoundary(theta, X, y):
     plt.legend()
 
 # Class Prediction
-# def predict(theta, X):
-#     ### ADD YOUR CODE HERE
-
-#     class = 
-#     return class
+def predict(theta, X):
+    # Compute the linear combination of inputs and parameters
+    z = np.dot(X, theta)    
+    # Apply the sigmoid function to get the predicted probability
+    p = sigmoid(z)    
+    # Threshold the probability at 0.5 to get the class prediction
+    predicted_class = (p >= 0.5).astype(int)
+    return predicted_class
 
 # Initialization
 np.set_printoptions(suppress=True)
@@ -97,9 +100,34 @@ plotDecisionBoundary(theta, X, y)
 plt.show()
 input('\nProgram paused. Press enter to continue.\n')
 
-# # ============== Part 4: Predict and Accuracies ==============
-# # Check the result for a student with marks 45 and 85.
-# ### ADD YOUR CODE HERE
+# ============== Part 4: Predict and Accuracies ==============
+# Check the result for a student with marks 45 and 85.
+### ADD YOUR CODE HERE
+
+
+# Prepare the input for prediction
+student_score = np.array([1, 45, 85])  # Add the intercept term
+prob = sigmoid(np.dot(student_score, theta))
+print('For a student with scores 45 and 85, we predict an admission probability of', prob)
+
+# Predict the classes for the training set
+p = predict(theta, X)
+
+# Calculate the training accuracy
+train_accuracy = np.mean(p == y) * 100
+print('Train Accuracy:', train_accuracy)
+
+
+
+
+
+
+
+
+
+
+
+
 
 # prob = 
 # print('For a student with scores 45 and 85, we predict an admission probability of', prob)
