@@ -11,7 +11,6 @@ from pathlib import Path
 # Finds the closest centroid for each sample
 # X-> dataset (each row is a data point)
 def find_closest_centroids(X, centroids):
-    print("in find_closest_centroids")
     # Number of centroids
     K = centroids.shape[0]
     
@@ -49,7 +48,6 @@ def find_closest_centroids(X, centroids):
 # idx -> array of the index of the cluster assignments for each data point
 # K -> # of clusters
 def compute_centroids(X, idx, K):
-    print("in compute_centroids")
     # X.shape will return a tuple (number_of_samples, number_of_features)
     num_of_features = X.shape[1]   
     # Initialize centroids with zeros
@@ -70,7 +68,6 @@ def run_kmeans(X, initial_centroids, max_iters):
     K = initial_centroids.shape[0]
     centroids = initial_centroids
     for i in range(max_iters):
-        print(i)
         idx = find_closest_centroids(X, centroids)
         centroids = compute_centroids(X, idx, K)
     return centroids, idx
@@ -125,15 +122,13 @@ print('\nApplying K-Means to compress an image.\n')
 
 # Find closest cluster members
 idx = find_closest_centroids(X, centroids)
-print(idx)
-print(idx.shape)
 # Recover the image from the indices
 idx = idx.astype(int)
 X_recovered = centroids[idx]
 
 # Reshape the recovered image into proper dimensions
 X_recovered = X_recovered.reshape(img_size) #reshape X_recovered into a specific shape defined by img_size. (original dimensions)
-print(X_recovered)
+
 
 
 # Display the original image
