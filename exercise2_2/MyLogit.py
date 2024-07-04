@@ -2,16 +2,10 @@
 ## Complete the missing code to implement Logistic Regression
 ## First make sure you have installed necessary modules
 ## pip install numpy matplotlib scipy
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
 from pathlib import Path
-
-
-
-
 
 def plotData(X, y):
     pos = y == 1
@@ -37,7 +31,7 @@ def costFunction(theta, X, y):
 def gradient(theta, X, y):
     m = len(y) # num of samples
     h_theta = sigmoid(X @ theta)#Logistic regression function    
-    grad = (1/m) * X.T @ (h_theta - y) #explain this shit
+    grad = (1/m) * X.T @ (h_theta - y) #applying the gradient equation
     return grad
 
 def plotDecisionBoundary(theta, X, y):
@@ -102,11 +96,10 @@ input('\nProgram paused. Press enter to continue.\n')
 
 # ============== Part 4: Predict and Accuracies ==============
 # Check the result for a student with marks 45 and 85.
-### ADD YOUR CODE HERE
-
-
 # Prepare the input for prediction
-student_score = np.array([1, 45, 85])  # Add the intercept term
+student_score = np.array([1, 45, 85])  # Add the intercept term 1
+                                       # This is necessary because the first element of the 
+                                       # theta vector includes an intercept term (bias)
 prob = sigmoid(np.dot(student_score, theta))
 print('For a student with scores 45 and 85, we predict an admission probability of', prob)
 
@@ -116,24 +109,4 @@ p = predict(theta, X)
 # Calculate the training accuracy
 train_accuracy = np.mean(p == y) * 100
 print('Train Accuracy:', train_accuracy)
-
-
-
-
-
-
-
-
-
-
-
-
-
-# prob = 
-# print('For a student with scores 45 and 85, we predict an admission probability of', prob)
-# p = predict(theta, X)
-
-# ### ADD YOUR CODE HERE
-# train_accuracy = 
-# print('Train Accuracy:', train_accuracy)
 

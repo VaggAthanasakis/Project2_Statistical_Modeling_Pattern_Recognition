@@ -5,14 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from skimage import io
 from skimage.transform import resize
-
-
-# # Randomly select initial centroids from the dataset.
-# def initialize_centroids(X, K):
-#     ### YOUR CODE HERE
-    
-#     centroids = 
-#     return centroids
+from pathlib import Path
 
 
 # Finds the closest centroid for each sample
@@ -66,27 +59,10 @@ def compute_centroids(X, idx, K):
     #Implementing the formula for calculating the centroid of each class
     for k in range(K):#for each cluster  
         cluster_points = X[idx == k]
-        centroids[k] = np.mean(cluster_points, axis=0)
-        
-        
-        
-        
-        
-        
-        
-        
-        ################################################################
-        #cluster_points = np.array([])# list to store data for cluster k
-        
-        # #Loop through data to get all the points assigned to cluster k
-        # for i in range(len(X)):           
-        #     if idx[i] == k: # If the data point is assigned to the k-th cluster, add it to the list
-        #         cluster_points = np.append(cluster_points,X[i])
-        
-        # centroids[k] = np.mean(cluster_points, axis=0)  # axis=0 specifies that the mean should be calculated along the first
-        #                                                 # axis of points_in_cluster -> calculated for each feature (column) independently 
-        #                                                 # across all the data points in points_in_cluster
-          ##############################################################################  
+        centroids[k] = np.mean(cluster_points, axis=0)# axis=0 specifies that the mean should be calculated along the first
+                                                      # axis of points_in_cluster -> calculated for each feature (column) independently 
+                                                      # across all the data points in points_in_cluster
+ 
     return centroids
 
 # K-means algorithm for a specified number of iterations
@@ -110,33 +86,26 @@ def kmeans_init_centroids(X, K):
     return initial_centroids
 
 # Load the image
-image = io.imread('C:/Users/gfrag/Desktop/Project2_Statistical_Modeling_Pattern_Recognition/exercise2_4/Fruit.png')
-# print("Before normalization ")
-# print(image)
-#image = resize(image, (256, 256))  # Resize for faster processing, if needed
-#rows, cols, dims = image.shape
+script_directory = Path(__file__).parent
+exam_scores_data1 = script_directory / 'Fruit.png'
+image = io.imread(exam_scores_data1)
+
 
 # Size of the image
 img_size = image.shape
 
 # Normalize image values in the range 0 - 1
-# max_pixel_value = np.max(image)
-max_pixel_value = 255.0
+max_pixel_value = np.max(image)
 image = image / max_pixel_value
-# print("After normalization ")
-# print(image)
 
 # Size of the image
 img_size = image.shape
 
-# Reshape the image to be a Nx3 matrix (N = num of pixels)
-#X = image.reshape(img_size[0] * img_size[1], 4)
-X = image.reshape(-1, 4)
-print("Image")
-print(image)
-# X = image.reshape(-1, 4)
-print("X, after reshaping")
-print(X)
+# Reshape the image to be a Nx4 matrix (N = num of pixels)
+X = image.reshape(-1, 4)#reshape the array image into a new shape with 4 columns
+                        # -1 is a special value that tells NumPy to calculate this 
+                        # dimension automatically based on the size of the original 
+                        # array and the other specified dimension.
 
 
 
@@ -163,9 +132,7 @@ idx = idx.astype(int)
 X_recovered = centroids[idx]
 
 # Reshape the recovered image into proper dimensions
-X_recovered = X_recovered.reshape(img_size)
-# X_recovered = X_recovered.reshape(img_size[0], img_size[1], 4)
-# X_recovered = X_recovered.reshape(-1, 4)
+X_recovered = X_recovered.reshape(img_size) #reshape X_recovered into a specific shape defined by img_size. (original dimensions)
 print(X_recovered)
 
 
